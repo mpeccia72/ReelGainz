@@ -3,14 +3,56 @@
 
 // constructor
 MachineFunds::MachineFunds() :
-    filename_{"data.dat"}
+    filename_{"data.dat"},
+    denomination_{Denomination::QuarterDollar}
     {
+        // only required on boot
+        if(loadBalanceFromMemory() == 0) {
+            std::cout << "Succesfully recovered funds!\n";
+        }
+        else {
+            system("pause");
+        }
 
     }
 
 
-// Saves slot balance to memory (EEPROM on embedded system) after each balance change.
-// Balance needs to exist in permanent storage in the case of a machine crash or restart.
+void MachineFunds::changeDenom(Denomination denomination) {
+    
+    denomination_ = denomination;
+
+    // C++ rounds down, the switch cases give 25, 50, and 100 cent credit values respectively 
+    switch (static_cast<int>(denomination_)) {
+        case 0:
+            credits_ = balance_/25;
+            break;
+        case 1:
+            credits_ = balance_/50;
+            break;
+        case 2:
+            credits_ = balance_/100;
+            break;
+        default:
+            std::cerr << "Error! Invalid denomination value\n";
+    }
+
+}
+
+
+Balance MachineFunds::getBalance() const {
+    return balance_;
+}
+
+
+Credits MachineFunds::getCredits() const {
+    return credits_;
+}
+
+Denomination MachineFunds::getDenomination() const {
+    return denomination_;
+}
+
+
 int MachineFunds::saveBalanceToMemory() {
 
     // when overwritting, we need to truncate previous file 
@@ -32,6 +74,7 @@ int MachineFunds::saveBalanceToMemory() {
 
 }
 
+
 int MachineFunds::loadBalanceFromMemory() {
 
     std::ifstream inputFile(filename_);
@@ -47,13 +90,5 @@ int MachineFunds::loadBalanceFromMemory() {
         return 1;
     }
 
-}
-
-int MachineFunds::getBalance() const {
-    return balance_;
-}
-
-int MachineFunds::getCredits() const {
-    return credits_;
 }
     
