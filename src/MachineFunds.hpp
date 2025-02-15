@@ -3,8 +3,8 @@
 #include <fstream>
 #include <iostream>
 
-using Credits = uint32_t;
-using Money  = uint32_t; // US Dollars (penny-based)
+using Credits = int32_t;
+using Money  = int32_t; // US Dollars (penny-based)
 
 // credit denomination
 enum class CreditDenomination{
@@ -45,6 +45,7 @@ class MachineFunds {
         Credits credits_;
         CreditDenomination creditDenomination_;
         std::string filename_;
+        int creditToDollarRatio[3] = {25,50,100}; // 
         
         
         // In case of system crash or restart, the balance needs to be stored in permanent storage 

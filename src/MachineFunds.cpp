@@ -3,7 +3,7 @@
 
 // constructor
 MachineFunds::MachineFunds() :
-    filename_{"data.dat"},
+    filename_{"../storage/data.dat"},
     creditDenomination_{CreditDenomination::QUARTER_DOLLAR}
     {
         // only required on boot
@@ -13,6 +13,8 @@ MachineFunds::MachineFunds() :
         else {
             system("pause");
         }
+
+        changeDenom(creditDenomination_); // updates machine credits to reflect balance
 
     }
 
@@ -44,9 +46,12 @@ bool MachineFunds::deductCredits(Credits credits) {
     // checks if transcation will go through and returns true if so
     if(credits_ - credits > -1) {
         credits_ -= credits;
+        balance_ -= credits * creditToDollarRatio[static_cast<int>(creditDenomination_)]; // credit to dollar conversion
+        saveBalanceToMemory(); // saves balance to permanent memory
         return true;
     }
     else {
+        std::cerr << "Error! Not enough credits remaining.\n";
         return false;
     }
 
