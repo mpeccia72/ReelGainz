@@ -1,1 +1,1 @@
-Project is to design all components of a robust slot game that can accept real funds and be implemented physically on embedded system.
+Project is to design all components of a robust slot game that can accept real funds and be implemented physically on embedded system. 

@@ -4,13 +4,23 @@
 #include <iostream>
 
 using Credits = uint32_t;
-using Balance  = uint32_t; // US Dollars (penny-based)
+using Money  = uint32_t; // US Dollars (penny-based)
 
 // credit denomination
-enum class Denomination{
+enum class CreditDenomination{
     QuarterDollar,
     HalfDollar,
     Dollar
+};
+
+// bill denominations accepted
+enum class BillDenomination {
+    SINGLE,
+    FIVE,
+    TEN,
+    TWENTY,
+    FIFTY,
+    HUNDRED
 };
 
 
@@ -22,16 +32,18 @@ class MachineFunds {
         MachineFunds(); // constrcutor
 
         // Public API
-        void changeDenom(Denomination); // updates denomination
+        void changeDenom(CreditDenomination); // updates denomination
+        void deductCredits(Credits); // deducts credits
+        void addFunds(BillDenomination); // adds money to balance
         Credits getCredits() const;
-        Balance getBalance() const;
-        Denomination getDenomination() const;
+        Money getBalance() const;
+        CreditDenomination getCreditDenomination() const;
 
 
     private:
-        Balance balance_;
+        Money balance_;
         Credits credits_;
-        Denomination denomination_;
+        CreditDenomination creditDenomination_;
         std::string filename_;
         
         

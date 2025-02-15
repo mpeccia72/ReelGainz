@@ -4,7 +4,7 @@
 // constructor
 MachineFunds::MachineFunds() :
     filename_{"data.dat"},
-    denomination_{Denomination::QuarterDollar}
+    creditDenomination_{CreditDenomination::QuarterDollar}
     {
         // only required on boot
         if(loadBalanceFromMemory() == 0) {
@@ -17,12 +17,12 @@ MachineFunds::MachineFunds() :
     }
 
 
-void MachineFunds::changeDenom(Denomination denomination) {
+void MachineFunds::changeDenom(CreditDenomination creditDenomination) {
     
-    denomination_ = denomination;
+    creditDenomination_ = creditDenomination;
 
     // C++ rounds down, the switch cases give 25, 50, and 100 cent credit values respectively 
-    switch (static_cast<int>(denomination_)) {
+    switch (static_cast<int>(creditDenomination_)) {
         case 0:
             credits_ = balance_/25;
             break;
@@ -33,13 +33,45 @@ void MachineFunds::changeDenom(Denomination denomination) {
             credits_ = balance_/100;
             break;
         default:
-            std::cerr << "Error! Invalid denomination value\n";
+            std::cerr << "Error! Invalid credit denomination value\n";
     }
 
 }
 
 
-Balance MachineFunds::getBalance() const {
+void MachineFunds::addFunds(BillDenomination billDenomination) {
+
+    // User inserts a $x bill, x dollars are added to balance 
+    switch (static_cast<int>(billDenomination)) {
+        case 0:
+            balance_ += 100;
+            break;
+        case 1:
+            balance_ += 500;
+            break;
+        case 2:
+            balance_ += 1000;
+            break;
+        case 3:
+            balance_ += 2000;
+            break;
+        case 4:
+            balance_ += 5000;
+            break;
+        case 5:
+            balance_ += 10000;
+            break;
+        default:
+            std::cerr << "Error! Invalid bill denomination value\n";
+    }
+
+    saveBalanceToMemory(); // saves balance to permament memory 
+    changeDenom(creditDenomination_); // updates machine credits to reflect new balance
+
+} 
+
+
+Money MachineFunds::getBalance() const {
     return balance_;
 }
 
@@ -48,8 +80,9 @@ Credits MachineFunds::getCredits() const {
     return credits_;
 }
 
-Denomination MachineFunds::getDenomination() const {
-    return denomination_;
+
+CreditDenomination MachineFunds::getCreditDenomination() const {
+    return creditDenomination_;
 }
 
 
@@ -82,7 +115,7 @@ int MachineFunds::loadBalanceFromMemory() {
     if (inputFile) {
         int value;
         inputFile >> value;
-        balance_ = static_cast<Balance>(value); // casts value to uint32_t
+        balance_ = static_cast<Money>(value); // casts value to uint32_t
         return 0;
 
     } else {
