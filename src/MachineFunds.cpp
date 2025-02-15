@@ -4,7 +4,7 @@
 // constructor
 MachineFunds::MachineFunds() :
     filename_{"data.dat"},
-    creditDenomination_{CreditDenomination::QuarterDollar}
+    creditDenomination_{CreditDenomination::QUARTER_DOLLAR}
     {
         // only required on boot
         if(loadBalanceFromMemory() == 0) {
@@ -34,6 +34,20 @@ void MachineFunds::changeDenom(CreditDenomination creditDenomination) {
             break;
         default:
             std::cerr << "Error! Invalid credit denomination value\n";
+    }
+
+}
+
+
+bool MachineFunds::deductCredits(Credits credits) {
+
+    // checks if transcation will go through and returns true if so
+    if(credits_ - credits > -1) {
+        credits_ -= credits;
+        return true;
+    }
+    else {
+        return false;
     }
 
 }

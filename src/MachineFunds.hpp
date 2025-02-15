@@ -8,9 +8,9 @@ using Money  = uint32_t; // US Dollars (penny-based)
 
 // credit denomination
 enum class CreditDenomination{
-    QuarterDollar,
-    HalfDollar,
-    Dollar
+    QUARTER_DOLLAR,
+    HALF_DOLLAR,
+    DOLLAR
 };
 
 // bill denominations accepted
@@ -33,7 +33,7 @@ class MachineFunds {
 
         // Public API
         void changeDenom(CreditDenomination); // updates denomination
-        void deductCredits(Credits); // deducts credits
+        bool deductCredits(Credits); // deducts credits
         void addFunds(BillDenomination); // adds money to balance
         Credits getCredits() const;
         Money getBalance() const;
