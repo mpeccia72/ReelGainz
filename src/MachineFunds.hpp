@@ -47,7 +47,7 @@ class MachineFunds {
         std::string filename_;
         
         
-        // In case of system crash or restart, the balance needs to be stored in permament storage 
+        // In case of system crash or restart, the balance needs to be stored in permanent storage 
         int saveBalanceToMemory(); // Saves slot balance to memory (EEPROM on embedded system) after each balance change.
         int loadBalanceFromMemory(); // Loads slot balance from memory (EEPROM on embedded system), typically after restarts or boots
 
