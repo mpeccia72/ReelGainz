@@ -79,7 +79,7 @@ void MachineFunds::addFunds(BillDenomination billDenomination) {
             std::cerr << "Error! Invalid bill denomination value\n";
     }
 
-    saveBalanceToMemory(); // saves balance to permament memory 
+    saveBalanceToMemory(); // saves balance to permanent memory 
     changeDenom(creditDenomination_); // updates machine credits to reflect new balance
 
 } 
