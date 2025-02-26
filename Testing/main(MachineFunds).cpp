@@ -15,7 +15,8 @@ int main() {
         auto cd = static_cast<int>(funds.getCreditDenomination());
         auto credits = funds.getCredits();
 
-        std::cout << "Balance: " << bal << "\n"
+        std::cout << "\n"
+                  << "Balance: " << bal << "\n"
                   << "Credit Denomination: " << cd << "\n"
                   << "Credits: " << credits << "\n\n";
         
@@ -37,7 +38,7 @@ int main() {
                 funds.deductCredits(input);
                 break;
             case 3:
-                std::cout << "0) $0.25 1) $0.50 Cent 2) $1.00\n";
+                std::cout << "0) $0.25 1) $0.50 2) $1.00\n";
                 std::cin >> input;
                 funds.changeDenom(static_cast<CreditDenomination>(input));
                 break;
